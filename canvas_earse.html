@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas 刮刮卡效果</title>
+    <style>
+    #box {
+        width: 540px;
+        min-height: 360px;
+        margin: 50px auto;
+        background: url('http://placehold.it/540x360/EFEFEF/ffffff') no-repeat;
+        background-size: cover;
+    }
+    </style>
+</head>
+<body>
+<!--刮刮卡， 背景图片早已放下，奖已确定，刮的体验  -->
+<div id="box"></div>
+<script src="http://mockjs.com/dist/mock.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script>
+Mock.mock('/award/1',
+[
+    {
+        'name': '特斯拉',
+        'url': 'http://cms-bucket.nosdn.127.net/catchpic/b/ba/bad6f58166f555751eee6cd643e8ce10.jpg?imageView&thumbnail=550x0',
+    }
+]);
+Mock.mock('/award/2',
+[
+    {
+        'name': '欧洲10日游',
+        'url': 'https://f7.sjbly.cn/m17/0711/0937/rainliudlh_750x500_fem.jpg',
+    }
+]);
+$(function() {
+    const box = document.querySelector('#box');
+    // jquery ajax
+    // 模拟现实 ar 前端 30% 改变 输入的入口和交互方式
+    // 前端大数据 vr 交互的数据量将是庞大的
+    let award = {};
+    $.getJSON('/award/2', function(data) {
+        award = data[0];
+        box.style.backgroundImage = 'url(' + data[0].url + ')';
+    })
+    // canvas 绘制刮刮卡
+    function init() {
+        // canvas 
+        if(!document.getElementById('myCanvas')) {
+            var width = '';
+            var height = '';
+            // dom 动态创建canvas
+            var canvas = document.createElement('canvas');
+            width = document.getElementById('box').offsetWidth;
+            height = document.getElementById('box').offsetHeight;
+            canvas.setAttribute('width', width + 'px');
+            canvas.setAttribute('height', height + 'px');
+            canvas.id 
+
+ = 'myCanvas'
+            // 将canvas添加到box
+            document.getElementById('box').appendChild(canvas);
+        }
+        var myCanvasObject = document.getElementById('myCanvas');
+        var ctx = myCanvasObject.getContext('2d');
+        // 黑色的矩形
+        ctx.beginPath(); //开始画
+        ctx.fillStyle = '#939393' //蘸颜料
+        ctx.rect(0,0,width, height);
+        ctx.closePath();
+        ctx.fill();
+
+        // 清除一下
+        // 事件 手机上 ontouchstart
+            //     ontouchmove
+            //     ontouchend
+            // PC  onmousedown
+            //     onmousemove
+            //     onmouseup
+        // PC端 肯定没有touch事件
+        // 移动端 有touch事件， 也支持mousedown 苹果笔
+        // touchstart>mousedown
+        // 两个事件都发生？ 怎么办？ 选择一个ontouchstart
+        // PC？ onmousedown 敏感度不行
+        // myCanvasObject.addEventListener('mousedown', function() {
+        //     console.log('按下了鼠标左键');
+        // })
+        // myCanvasObject.addEventListener('touchstart', function() {
+        //     console.log('手指触按了屏幕');
+        // })
+        var hasTouch = "ontouchstart" in window? true: false;
+        var tapStart = hasTouch?'touchstart':'mousedown';
+        var tapMove = hasTouch?'touchmove':'mousemove';
+        var tapEnd = hasTouch?'touchend':'mouseup';
+        var idDown = false;
+        var pointerArr = [];
+        // 要绘制的点都放这里 touch 事件event对象都会给我们一个点坐标(x,y)
+        myCanvasObject.addEventListener(tapStart, function(event) {
+            this.style.cursor = 'move';
+            isDown = true;
+            // touch 手指按下的那一刻
+            xPointer = hasTouch?
+            event.targetTOuches[0].pageX:
+            event.clientX-this.offsetLeft;
+            //event.clientX mousedown事件 鼠标离屏幕最左
+            // 边的距离
+            // this.offsetLeft canvas 左边离屏幕最左边的距离
+            // 相减得到鼠标点在canvas 中的偏移量
+            console.log(event.clientX-this.offsetLeft);
+            console.log(event.clientY-this.offsetTop);
+        }, false);
+        myCanvasObject.addEventListener(tapMove, function() {
+            console.log('擦除中');
+        }, false);
+         myCanvasObject.addEventListener(tapEnd, function() {
+            console.log('结束');
+        }, false);
+    }
+    init();
+})
+</script> 
+</body>
+</html>

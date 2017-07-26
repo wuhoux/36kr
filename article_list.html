@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>36KR新闻列表</title>
+    <style>
+    *, *:after, *:before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html { 
+        font-size: 20px;
+        }
+    body {
+        font-family: sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        background: #fff;
+        font-weight: 400;
+        font-size: 1.6rem;
+        color: #333;
+    }
+    .kr_article_list {
+        width: 748px;
+        height: 190px;
+        margin: 50px auto;
+    }
+    ul,li {
+        list-style: none;
+    }
+    .kr_article_list ul li .inner_li {
+        height: 9.5rem;/*子元素撑起父元素的高度*/
+        border-radius: 4px;
+        overflow: hidden;
+        padding: 1rem 0;/*20px*/
+        position: relative; 
+    }
+    .kr_article_list .inner_li_abtest .h5_mark {
+        display: none;
+    }
+    .kr_article_list .h5_mark,
+    .kr_article_list .pc_mark {
+        position: absolute;
+        top: .4rem;
+        left: .4rem;
+        padding: .5rem;
+        /* 上下padding不设置？ line-height  */
+        color: #fff;
+        background: rgba(0,0,0,.5);
+        font-size: .6rem;
+        line-height: 1.2rem;
+        text-align: center;
+        border-radius: 1rem;
+        z-index: 11;
+    }
+    .kr_article_list .img_box {
+        float: left;
+        width: 13rem;
+        height: 7.5rem;
+        background-color: #c3c3c3;
+        position: relative;
+        overflow: hidden;
+    }
+    .kr_article_list .img_box div {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-size: cover;
+    }
+    .kr_article_list .img_box img {
+        width: 100%;
+        height: 100%;
+        transition: all .7s;
+    }
+    .kr_article_list .img_box img:hover {
+        transform: scale(1.05);
+    }
+    .kr_article_list .intro {
+        /* 左边是一个
+        image-box float:left inline感觉
+        副作用： 离开文档流 从上到下 块级元素
+        从左到右 span 等行内元素 inline-block inline
+        flex float
+        intro 就不知道它的存在了 intro 顶着父容器的最左边？
+        有这块位置， 但intro不知道
+        intro 正常元素 处理float的问题， margin-left 从左侧开始 */
+        margin-left: 14rem;
+        font-size: .65rem;
+        line-height: 1.5;
+        word-break: break-all;
+        color: #828a92;
+        height: 100%;
+        position: relative;
+    }
+    .kr_article_list .intro h3 {
+        font-size: 1.1rem;
+        margin-top: -4px;
+        max-height: 2.8rem;
+        line-height: 1.4rem;
+        color: #3d464d;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+    }
+    </style>
+</head>
+<body>
+    <div class="kr_article_list">
+        <ul class="feed_ul">
+            <li>
+                <div class="am-cf inner_li
+                 inner_li_abtest">
+                 <span class="mark h5_mark">技能树</span>
+                 <a href="#">
+                     <div class="img_box">
+                         <div>
+                             <!-- 通过markman 量的了宽高 切图 ps
+                             最后， 这图片又是要动态的换成后端的数据
+                             云服务， 只希望这里有个图片占位而已，
+                             http://placehold.it/260x150/123123/ffffff
+                             http://placehold.it/宽度x高度/222222
+                             http://placehold.it/100x100/1d2c3f
+                             加快切页面速度
+                            切？ 静态图 取图 -->
+                        <img src="http://placehold.it/260x150/123123/ffffff"/>
+                         </div>
+                    <span class="mark pc_mark">技能树</span>
+                     </div>
+                        <!-- intro font-size 设置成通用的，
+                        .intro h3 来做到特殊化标题 -->
+                        <div class="intro">
+                            <h3>20年创业老兵:被逼着创了三次业，够了</h3>
+                            <div>桔子水晶吴海的创业经历</div>
+                        </div>
+                 </a>
+                    <div class="info">
+                        <div class="info-list info-list-abtest">
+                            <div class="user-info">
+                                <a href="#" class="name">36克的朋友们</a>
+                                <span class="oblique_line"></span>
+                            </div>
+                            <div class="time-div">
+                                <span class="title">31分钟前</span>
+                                <span class="time h5_time">31分钟前</span>
+                            </div>
+                            <div class="tags-list">
+                                <i class="icon-tag"></i>
+                                    <span>
+                                        <a href="#">大公司</a>
+                                        <span>,</span>
+                                    </span>
+                                    <span>
+                                        <a href="#">旅游</a>
+                                        <span>,</span>
+                                    </span>
+                                    </div>
+                                <div class="comments-list">
+                                    <span class="comments">
+                                        3收藏
+                                    </span>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
